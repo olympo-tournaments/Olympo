@@ -25,10 +25,10 @@
                     </div>
                 </div>
                 <div class="header-content-right">
-                    <button>
+                <button onclick="alert('proximas atualizações')" class="btn-header">
                         <i class="fa-solid fa-bell"></i>
                     </button>
-                    <button id="user-photo">
+                    <button id="user-photo" onclick="window.location.href = 'profile'" class="btn-header">
                         <i class="fa-solid fa-circle-user"></i>
                     </button>
                 </div>

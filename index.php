@@ -70,6 +70,8 @@
 
             return Promise.reject(error);
         });
+
+        const urlApi = "http://localhost/Olympo%20Tournaments"
         
 
 

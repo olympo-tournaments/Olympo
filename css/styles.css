@@ -78,6 +78,10 @@ a {
   display: none;
 }
 
+.btn-header {
+  cursor: pointer;
+}
+
 input[type=text] {
     background-color: var(--blue1);
     border-radius: 16px;
