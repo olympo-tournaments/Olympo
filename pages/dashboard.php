@@ -74,7 +74,7 @@
     }
 
     .category-home {
-        /* background-color: var(--blue1); */
+        background-color: var(--blue1);
         background-position: center;
         background-size: cover;
         background-repeat: no-repeat;
@@ -115,6 +115,27 @@
         padding: 16px;
         border-radius: 16px;
     }
+    .match-home {
+        background-color: var(--blue2);
+        padding: 12px;
+        display: flex;
+        align-items: center;
+    }
+    .logo-tournament {
+        background-color: var(--blue1);
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        width: 50px;
+        height: 50px;
+    }
+    .match-home .tournament-content {
+        margin-left: 4px;
+    }
+    #next-tournament-container {
+        padding: 4px 0;
+    }
+
 </style>
 <div class="root">
     <?php
@@ -178,7 +199,7 @@
                             <h2>Créditos</h2>
                             <div>
                                 <img src="<?php echo INCLUDE_PATH; ?>assets/credits.png" alt="Credits">
-                                <h3></h3>
+                                <h3>0</h3>
                             </div>
                         </a>
                     </div>
@@ -254,9 +275,11 @@
                                             nextMatchesContainer.innerHTML += `
                                                 <a href="<?php echo INCLUDE_PATH; ?>match?q=${match.id}"><div class="match-home">
                                                     <div class="logo-tournament"></div>
-                                                    <h4 id="name-tournament"></h4>
-                                                    <h5>${match.attributes.team1.name} X ${match.attributes.team2.name}</h5>
-                                                    <date>${match.attributes.time}</date>
+                                                    <div class="tournament-content">
+                                                        <h4 id="name-tournament"></h4>
+                                                        <h5>${match.attributes.team1.name} X ${match.attributes.team2.name}</h5>
+                                                        <date>${match.attributes.time}</date>
+                                                    </div>
                                                 </div></a>
                                              `
                                         })

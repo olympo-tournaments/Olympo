@@ -45,7 +45,28 @@
                     background-color: var(--blue2);
                     padding: 16px;
                     display: flex;
+                    justify-content: space-between;
+                }
+
+                .tournament-info-container-left {
+                    display: flex;
                     align-items: center;
+                }
+
+                #tournament-info-container-right {
+                    display: flex;
+                    align-items: center;
+                }
+                #tournament-info-container-right button {
+                    padding: 12px;
+                    border: 0;
+                    width: 100%;
+                    height: 50px;
+                    font-size: 1rem;
+                    font-weight: bold;
+                    text-transform: capitalize;
+                    color: white;
+                    outline: none;
                 }
 
                 .tournament-info-container .tournament-logo {
@@ -160,11 +181,14 @@
             </style>
             <div class="container" style="overflow-y: auto;" id="content">
                 <div class="tournament-info-container">
-                    <div class="tournament-logo"></div>
-                    <div class="tournament-info">
-                        <h2 id="tournament-name"></h2>
-                        <p id="tournament-description"></p>
+                    <div class="tournament-info-container-left">
+                        <div class="tournament-logo"></div>
+                        <div class="tournament-info">
+                            <h2 id="tournament-name"></h2>
+                            <p id="tournament-description"></p>
+                        </div>
                     </div>
+                    <div id="tournament-info-container-right"></div>
                 </div>
                 <div class="tournament-content">
                     <div class="tournament-extra">
@@ -204,6 +228,8 @@
                                 }
                             };
 
+                            let userData = {}
+
                             async function getUser() {
                                 try {
                                     const photo = document.querySelector("#user-photo")
@@ -218,6 +244,7 @@
                                     if (image != null) {
                                         photo.innerHTML = `<img src="${image}" alt="Foto do seu perfil">`
                                     }
+                                    userData = user;
                                 } catch (error) {
                                     console.log(error)
                                 }
@@ -228,6 +255,7 @@
                                 const players = document.querySelector("#tournament-game-players")
 
                                 try {
+                                    console.log(sportId)
                                     const request = await axios.get(`${urlApi}/tournament/categories/${sportId}`, config)
 
                                     const sport = request.data.data;
@@ -310,6 +338,11 @@
                                     if (tournament.attributes.twitch) {
                                         live.innerHTML = `<iframe src="https://player.twitch.tv/?channel=${twitch}&parent=philna.sh&autoplay=false" frameborder="0" scrolling="no" allowfullscreen="true" >
                         </iframe>`
+                                    }
+
+                                    const containerRight = document.querySelector("#tournament-info-container-right")
+                                    if(tournament.attributes.owner == userData.id) {
+                                        containerRight.innerHTML += `<button onclick="alert('proximas funcionalidades')">Editar torneio</button>`
                                     }
 
                                     await getSportDetails(tournament.attributes.sport)

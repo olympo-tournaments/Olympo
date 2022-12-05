@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <div class="header-content-right">
-                <button onclick="alert('proximas atualizações')" class="btn-header">
+                    <button onclick="alert('proximas atualizações')" class="btn-header">
                         <i class="fa-solid fa-bell"></i>
                     </button>
                     <button id="user-photo" onclick="window.location.href = 'profile'" class="btn-header">
@@ -110,7 +110,7 @@
                     border-radius: 20px;
                     border-top-left-radius: 0;
                     border-bottom-left-radius: 0;
-                    
+
                 }
 
                 textarea::-webkit-scrollbar-thumb {
@@ -155,8 +155,8 @@
                     background-repeat: no-repeat;
                 }
 
-                .color-radio input[type="radio"]:checked+label {
-                    background-color: #ccf;
+                .color-radio input[type="radio"]:checked~label {
+                    border: 3px solid red;
                 }
 
                 .form-radio-group-color {
@@ -182,8 +182,8 @@
                     <div class="content-left-create-tournament">
                         <h2>Criar Torneio</h2>
                         <div class="form-wraper">
-                            <label for="nome">Nome do campeonato</label>
-                            <input type="text" id="nome" placeholder="Nome">
+                            <label for="name">Nome do campeonato</label>
+                            <input type="text" id="name" placeholder="Nome">
                         </div>
                         <div class="form-wraper">
                             <label for="desc">Descrição do campeonato</label>
@@ -194,11 +194,11 @@
                                 <h3>Formato</h3>
                                 <div class="group-radio">
                                     <div class="form-wraper">
-                                        <input type="radio" name="format" id="online">
+                                        <input type="radio" name="format" id="online" value="online">
                                         <label for="online">Online</label>
                                     </div>
                                     <div class="form-wraper">
-                                        <input type="radio" name="format" id="presencial">
+                                        <input type="radio" name="format" id="presencial" value="presencial">
                                         <label for="presencial">Presencial</label>
                                     </div>
                                 </div>
@@ -207,11 +207,11 @@
                                 <h3>Privacidade</h3>
                                 <div class="group-radio">
                                     <div class="form-wraper">
-                                        <input type="radio" name="privacy" id="open">
+                                        <input type="radio" name="privacy" id="open" value="open">
                                         <label for="open">Aberto</label>
                                     </div>
                                     <div class="form-wraper">
-                                        <input type="radio" name="privacy" id="only-invites">
+                                        <input type="radio" name="privacy" id="only-invites" value="only-invites">
                                         <label for="only-invites">Somente Convidados</label>
                                     </div>
                                 </div>
@@ -227,17 +227,21 @@
                         <h3>Escolha o estilo de jogo</h3>
                         <div class="form-radio-group-color">
                             <div class="form-wraper color-radio">
+                                <input type="radio" name="style" id="ranked" value="ranked">
                                 <label for="ranked">Ranqueada</label>
-                                <input type="radio" name="style" id="ranked">
                             </div>
                             <div class="form-wraper color-radio">
+                                <input type="radio" name="style" id="1v1" value="1v1">
                                 <label for="1v1">1v1</label>
-                                <input type="radio" name="style" id="1v1">
                             </div>
                             <div class="form-wraper color-radio">
+                                <input type="radio" name="style" id="fun" value="fun">
                                 <label for="fun">Diversão</label>
-                                <input type="radio" name="style" id="fun">
                             </div>
+                        </div>
+                        <div class="form-wraper">
+                            <label for="invitation">Código de convite</label>
+                            <input type="text" id="invitation" placeholder="Convite">
                         </div>
                         <button type="submit" class="button-submit">Criar Torneio</button>
                         <!-- <input type="radio" name="imagem" id="i1" />
@@ -298,11 +302,11 @@
                                     const categories = request.data.data
                                     categories.slice(0, 4).map((category) => {
                                         console.log(category)
-                                        
+
                                         receiveCategories.innerHTML += `
                                         <div class="form-wraper color-radio">
-                                            <label for="${category.name}" style="background-image: url('${category.attributes.image}')"></label>
-                                            <input type="radio" name="game" id="${category.name}">
+                                            <input type="radio" name="game" id="${category.attributes.name}" value="${category.attributes.name}">
+                                            <label for="${category.attributes.name}" style="background-image: url('${category.attributes.image}')"></label>
                                         </div>
                                             `
                                     })
@@ -312,7 +316,7 @@
                                 }
                             }
                             await getUser()
-                            getCategory()
+                            await getCategory()
                         }
 
                     }
@@ -334,7 +338,67 @@
             async function createTournament(e) {
                 e.preventDefault();
 
-                alert("teste")
+                let name = document.querySelector("#name")
+                let desc = document.querySelector("#desc")
+                let invitation = document.querySelector("#invitation")
+                let format = document.querySelector("input[name='format']:checked")
+                let privacy = document.querySelector("input[name='privacy']:checked")
+                let style = document.querySelector("input[name='style']:checked")
+                let game = document.querySelector("input[name='game']:checked")
+
+                if (name.value == "") {
+                    alert("nome vazio")
+                } else if (desc.value == "") {
+                    alert("descrição vazia")
+                } else if (format == null) {
+                    alert("formato vazio")
+                } else if (privacy == null) {
+                    alert("privacidade vazia")
+                } else if (style == null) {
+                    alert("estilo vazia")
+                } else if (game == null) {
+                    alert("jogo vazia")
+                } else if(invitation.value == "") {
+                    alert("codigo de convite vazio")
+                } else {
+                    name = name.value;
+                    desc = desc.value
+                    format = format.value
+                    privacy = privacy.value
+                    style = style.value
+                    game = game.value
+                    invitation = invitation.value
+                    const token = localStorage.getItem("token")
+                    const header = {
+                        "Content-Type": "application/json",
+                        'Authorization': `Bearer ${token}`,
+                    };
+                    const parameters = {
+                        method: "POST",
+                        headers: header,
+                    };
+                    const body = {
+                        name,
+                        description: desc,
+                        sport: game,
+                        invitation,
+                        type: format,
+                        // style: 
+                        privacy
+                    };
+
+                    try {
+                        const post = await axios.post(`${urlApi}/api/tournament`, body, parameters)
+                        window.location.href = `tournament?q=${post.data.data.id}`
+                    } catch (error) {
+                        console.log(error)
+                        if(error.response.data.errors[0].title == "ERR_INVITE_EXISTS") {
+                            alert(error.response.data.errors[0].detail)
+                        }
+                    }
+
+                }
+
             }
         </script>
 

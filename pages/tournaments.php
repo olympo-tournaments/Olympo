@@ -173,7 +173,7 @@
                                         console.log(tournament)
                                         tournamentsContainer.innerHTML += `
                                         <div class="tournament-single">
-                                        <a href="tournament?q=${tournament.id}">
+                                            <a href="tournament?q=${tournament.id}">
                                                 <div class="tournament-info">
                                                     <div class="tournament-logo" style="background-image: url('${tournament.attributes.photo}')"></div>
                                                     <div class="tournament-details">
