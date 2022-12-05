@@ -44,8 +44,9 @@
                     width: 100%;
                     height: 100%;
                     display: flex;
-                    justify-content: space-between;
+                    justify-content: space-around;
                     margin-top: 36px;
+                    align-items: center;
                 }
 
                 .container {
@@ -84,6 +85,7 @@
                 }
 
                 textarea {
+                    resize: none;
                     height: 200px;
                     width: 100%;
                     max-width: 700px;
@@ -94,6 +96,31 @@
                     padding: 12px;
                     color: var(--gray1);
                     font-size: 14px;
+                    scrollbar-width: thin;
+                    scrollbar-color: #3D3D43 #727279;
+                }
+
+                /* Works on Chrome, Edge, and Safari */
+                textarea::-webkit-scrollbar {
+                    width: 12px;
+                }
+
+                textarea::-webkit-scrollbar-track {
+                    background: #727279;
+                    border-radius: 20px;
+                    border-top-left-radius: 0;
+                    border-bottom-left-radius: 0;
+                    
+                }
+
+                textarea::-webkit-scrollbar-thumb {
+                    background-color: #3D3D43;
+                    border-radius: 20px;
+                    cursor: pointer;
+                    border-radius: 20px;
+                    border-top-left-radius: 0;
+                    border-bottom-left-radius: 0;
+                    /* border: 3px solid orange; */
                 }
 
                 .form-radio-group {

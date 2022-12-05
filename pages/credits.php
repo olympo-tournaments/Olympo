@@ -1,4 +1,69 @@
 <style>
+    .container {
+        margin: 24px 0 0 0;
+        height: calc(100% - (64px + 16px));
+    }
+
+    .credits-home {
+        background-color: var(--blue1);
+        width: 300px;
+        height: 170px;
+        border-radius: 16px;
+        margin-bottom: 24px;
+        padding: 16px;
+    }
+
+    .credits-home a>div {
+        display: flex;
+        margin-top: 16px;
+        align-items: center;
+        justify-content: space-between;
+        width: 60%;
+    }
+
+    .credits-home a>div h3 {
+        font-size: 3rem;
+    }
+
+    .container-credits-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .img-roleta {
+        width: 150px;
+        height: 150px;
+    }
+
+    .credits-buttons {
+        width: 300px;
+        height: 170px;
+        background-color: var(--blue1);
+        display: flex;
+        border-radius: 16px;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .vertical-line {
+        height: 70%;
+        border-left: 2px solid var(--gray1);
+        opacity: 0.3;
+    }
+
+    .btn-credits {
+        /* background-color: var(--blue1); */
+        width: 90px;
+        height: 90px;
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.3rem;
+        border: 0;
+    }
 
 </style>
 <div class="root">
@@ -25,7 +90,7 @@
                     </div>
                 </div>
                 <div class="header-content-right">
-                <button onclick="alert('proximas atualizações')" class="btn-header">
+                    <button onclick="alert('proximas atualizações')" class="btn-header">
                         <i class="fa-solid fa-bell"></i>
                     </button>
                     <button id="user-photo" onclick="window.location.href = 'profile'" class="btn-header">
@@ -34,7 +99,27 @@
                 </div>
             </header>
             <div class="container">
-                <h1>Creditos</h1>
+                <div class="container-credits-top">
+                    <div class="credits-home">
+                        <a href="<?php echo INCLUDE_PATH . "credits"; ?>">
+                            <h2>Créditos</h2>
+                            <div>
+                                <img src="<?php echo INCLUDE_PATH; ?>assets/credits.png" alt="Credits">
+                                <h3></h3>
+                            </div>
+                        </a>
+                    </div>
+                    <img src="<?php echo INCLUDE_PATH ?>assets/roleta.png" alt="" class="img-roleta">
+                    <div class="credits-buttons">
+                        <button onclick="alert('proximas atualizações')" class="btn-credits">
+                            <i class="fa-solid fa-store"></i>
+                        </button>
+                        <div class="vertical-line"></div>
+                        <button onclick="alert('proximas atualizações')" class="btn-credits">
+                            <i class="fa-solid fa-receipt"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 

@@ -252,10 +252,10 @@
                                     if (matches.length != 0) {
                                         matches.slice(0, 6).map((match) => {
                                             nextMatchesContainer.innerHTML += `
-                                                <a href="<?php echo INCLUDE_PATH; ?>tournament?q=${match.id}"><div class="match-home">
+                                                <a href="<?php echo INCLUDE_PATH; ?>match?q=${match.id}"><div class="match-home">
                                                     <div class="logo-tournament"></div>
                                                     <h4 id="name-tournament"></h4>
-                                                    <h5>Team ${match.attributes.team1} X Team ${match.attributes.team1}</h5>
+                                                    <h5>${match.attributes.team1.name} X ${match.attributes.team2.name}</h5>
                                                     <date>${match.attributes.time}</date>
                                                 </div></a>
                                              `

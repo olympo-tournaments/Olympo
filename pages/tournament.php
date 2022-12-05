@@ -88,7 +88,7 @@
                     height: 200px;
                     background-color: var(--blue2);
                     border-radius: 16px;
-                    padding: 12px;
+                    padding: 12px 24px;
                     display: flex;
                     align-items: center;
                 }
@@ -109,9 +109,11 @@
                 .next-matches {
                     margin: 24px 0;
                 }
+
                 #next-matches {
                     margin: 12px 0;
                 }
+
                 #next-matches .next-game-single {
                     background-color: var(--blue2);
                     padding: 16px 24px;
@@ -128,6 +130,32 @@
                     background-repeat: no-repeat;
                     width: 64px;
                     height: 64px;
+                }
+
+                /* Works on Firefox */
+                .container {
+                    scrollbar-width: thin;
+                    scrollbar-color: #3D3D43 #727279;
+                }
+
+                /* Works on Chrome, Edge, and Safari */
+                .container::-webkit-scrollbar {
+                    width: 12px;
+                }
+
+                .container::-webkit-scrollbar-track {
+                    background: #727279;
+                    border-radius: 20px;
+                    border-top-left-radius: 0;
+                    border-bottom-left-radius: 0;
+                }
+
+                .container::-webkit-scrollbar-thumb {
+                    background-color: #3D3D43;
+                    border-radius: 20px;
+                    border-top-left-radius: 0;
+                    border-bottom-left-radius: 0;
+                    /* border: 3px solid orange; */
                 }
             </style>
             <div class="container" style="overflow-y: auto;" id="content">
@@ -150,7 +178,7 @@
                         <div id="tournament-live"></div>
                     </div>
                     <div class="next-matches">
-                        <h2>Próximas Partidas</h2>
+                        <h2>Partidas</h2>
                         <div id="next-matches"></div>
                     </div>
                 </div>
@@ -204,7 +232,7 @@
 
                                     const sport = request.data.data;
 
-                                    image.style.backgroundImage = `url(${sport.attributes.image})`
+                                    image.style.backgroundImage = `url('${sport.attributes.image}')`
 
                                     name.innerHTML = sport.attributes.name
                                     players.innerHTML = `Até ${sport.attributes.sport_members} jogadores`
@@ -217,34 +245,42 @@
                                 const nextMatches = document.querySelector("#next-matches");
                                 try {
                                     const request = await axios.get(`${urlApi}/tournament/matches/${tournamentId}`, config)
-
                                     console.log(request)
+
                                     const matches = request.data.data;
 
-                                    matches.slice(0, 4).map((match) => {
-                                        console.log(match)
 
-                                        nextMatches.innerHTML += `
-                                        <a href="<?php echo INCLUDE_PATH ?>match?q=${match.id}">
-                                            <div class="next-game-single">
-                                                <div class="tournament-logo"></div>
-                                                <div class="tournament-details">
-                                                    <h3>${match.attributes.id_tournament.name}</h3>
-                                                    <h3>Team ${match.attributes.team1} x Team ${match.attributes.team2}</h3>
-                                                </div>
-                                                <div class="tournament-status">
-                                                    <h4>Vitória</h4>
-                                                </div>
-                                                <div class="tournament-date">
-                                                    <h4>${match.attributes.time}</h4>
-                                                </div>
-                                            </div>
-                                        </a>
-                                                `
-                                    })
+                                    if (matches.length > 0) {
+                                        matches.slice(0, 4).map((match) => {
+
+
+                                            nextMatches.innerHTML += `
+                                                <a href="<?php echo INCLUDE_PATH ?>match?q=${match.id}">
+                                                    <div class="next-game-single">
+                                                        <div class="tournament-logo"></div>
+                                                        <div class="tournament-details">
+                                                            <h3>${match.attributes.id_tournament.name}</h3>
+                                                            <h3>${match.attributes.team1.name} x ${match.attributes.team2.name}</h3>
+                                                        </div>
+                                                        <div class="tournament-status">
+                                                            <h4>${match.attributes.result}</h4>
+                                                        </div>
+                                                        <div class="tournament-date">
+                                                            <h4>${match.attributes.time}</h4>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                              `
+                                        })
+                                    } else {
+                                        nextMatches.innerHTML = `<div class="tournament-finished"><h1>Nenhuma partida encontrada!</h1></div>`
+                                    }
+
 
                                 } catch (error) {
-                                    console.log(error)
+                                    if (error.response.data.errors[0].title == "ERR_MATCH_NOT_FOUND") {
+                                        nextMatches.innerHTML = `<div class="tournament-finished"><h1>Nenhuma partida encontrada!</h1></div>`
+                                    }
                                 }
                             }
                             async function getTournament() {

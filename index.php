@@ -43,9 +43,6 @@
                     console.log("erro")
                     return reject(res)
                 } else {
-                    const user = res.data.data
-                    localStorage.setItem("access_token", user.token.access_token);
-                    localStorage.setItem("refresh_token", user.token.refresh_token);
                     return resolve(res)
                 }
                     
@@ -60,9 +57,18 @@
         axios.interceptors.response.use(function (response) {
             return response;
         }, async function (error) {
+                // console.log(error)
                 if (error.response.status === 401 && token && error.response.data.errors[0].title == "ERR_TOKEN_EXPIRED") {
                     const response = await refreshToken(error);
-                    return response;
+                    const user = response.data.data
+                    error.config.headers['Authorization'] = 'Bearer ' + user.token.access_token;
+                    localStorage.setItem("access_token", user.token.access_token);
+                    localStorage.setItem("refresh_token", user.token.refresh_token);
+                    // error.config.baseURL = undefined;
+                    return axios.request(error.config);
+
+                    // console.log(response)
+                    // return response;
                 } else if(error.response.status === 401 && token && error.response.data.errors[0].title == "ERR_INVALID_REFRESH") {
                     window.location.href = `/olympo/login`
                     return error

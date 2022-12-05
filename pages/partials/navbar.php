@@ -46,8 +46,8 @@
                 <li><a href="<?php echo INCLUDE_PATH.'calendar';?>"><i class="fa-solid fa-calendar"></i></a></li>
                 <li><a href="<?php echo INCLUDE_PATH.'tournaments';?>"><i class="fa-solid fa-users"></i></a></li>
                 <li><a href="<?php echo INCLUDE_PATH.'dashboard';?>"><i class="fa-solid fa-house"></i></a></li>
-                <li><a href="<?php echo INCLUDE_PATH.'chat';?>"><i class="fa-solid fa-message"></i></a></li>
-                <li><a href="<?php echo INCLUDE_PATH.'config';?>"><i class="fa-solid fa-gear"></i></a></li>
+                <li><a onclick="alert('proximas atualizações')" style="cursor: pointer;"><i class="fa-solid fa-message"></i></a></li>
+                <li><a onclick="alert('proximas atualizações')" style="cursor: pointer;"><i class="fa-solid fa-gear"></i></a></li>
             </ul>
         </nav>
     </header>
