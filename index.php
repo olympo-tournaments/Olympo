@@ -23,7 +23,8 @@
     <link rel="shortcut icon" href="<?php echo INCLUDE_PATH;?>assets/favicon.ico" type="image/x-icon">
 
     <script>
-        const urlApi = "http://localhost/Olympo%20Tournaments"
+        // const urlApi = "http://localhost/Olympo%20Tournaments"
+        const urlApi = "http://molian.com.br/olympo_api"
 
     async function refreshToken(error) {
         return new Promise(async (resolve, reject) => {

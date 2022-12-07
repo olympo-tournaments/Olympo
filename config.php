@@ -8,9 +8,9 @@
 	};
 	spl_autoload_register($autoload);
 
-	// define('INCLUDE_PATH','http://molian.com.br/olympo/');
-	define('INCLUDE_PATH','http://localhost/olympo/');
+	define('INCLUDE_PATH','http://molian.com.br/olympo/');
 	define('DOCUMENT_ROOT',$_SERVER['DOCUMENT_ROOT']."/olympo");
+	// define('INCLUDE_PATH','http://localhost/olympo/');
 
 	define('NOME_EMPRESA','Olympo Tournaments');
 ?>
