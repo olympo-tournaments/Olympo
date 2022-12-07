@@ -193,7 +193,7 @@
                                 try {
                                     const photo = document.querySelector("#user-photo")
                                     const name = document.querySelector("#user-name")
-                                    const request = await axios.get(`http://localhost/Olympo%20Tournaments/api/user/${user_storage.attributes.username}`, config)
+                                    const request = await axios.get(`${urlApi}/api/user/${user_storage.attributes.username}`, config)
 
                                     const user = request.data.data;
                                     const firstName = user.attributes.name.split(" ")[0];
@@ -270,7 +270,7 @@
                                     })
                                 } catch (error) {
                                     console.log(error)
-                                    document.querySelector("#tournaments-content").innerHTML = `<div class="category-not-found"><h1>Nenhuma categoria encontrada!</h1></div>`
+                                    document.querySelector("#tournaments-content").innerHTML = `<div class="category-not-found"><h1>Nenhum torneio encontrado!</h1></div>`
                                 }
                             }
                             await getUser()

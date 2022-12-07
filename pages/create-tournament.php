@@ -278,7 +278,7 @@
                                 try {
                                     const photo = document.querySelector("#user-photo")
                                     const name = document.querySelector("#user-name")
-                                    const request = await axios.get(`http://localhost/Olympo%20Tournaments/api/user/${user_storage.attributes.username}`, config)
+                                    const request = await axios.get(`${urlApi}/api/user/${user_storage.attributes.username}`, config)
 
                                     const user = request.data.data;
                                     const firstName = user.attributes.name.split(" ")[0];
@@ -296,7 +296,7 @@
                             async function getCategory() {
 
                                 try {
-                                    const request = await axios.get(`http://localhost/Olympo%20Tournaments/tournament/categories`, config)
+                                    const request = await axios.get(`${urlApi}/tournament/categories`, config)
 
                                     const receiveCategories = document.querySelector("#receive-games .form-radio-group-color")
                                     const categories = request.data.data

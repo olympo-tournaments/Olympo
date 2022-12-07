@@ -89,7 +89,7 @@
                                 try {
                                     const photo = document.querySelector("#user-photo")
                                     const name = document.querySelector("#user-name")
-                                    const request = await axios.get(`http://localhost/Olympo%20Tournaments/api/user/${user_storage.attributes.username}`, config)
+                                    const request = await axios.get(`${urlApi}/api/user/${user_storage.attributes.username}`, config)
 
                                     const user = request.data.data;
                                     const firstName = user.attributes.name.split(" ")[0];
@@ -106,7 +106,7 @@
                             async function getUserMatches() {
                                 const nextMatchesContainer = document.querySelector("#next-tournament-container")
                                 try {
-                                    const request = await axios.get(`http://localhost/Olympo%20Tournaments/user/allMatches`, config)
+                                    const request = await axios.get(`${urlApi}/user/matches`, config)
                                     console.log(request)
                                     const matches = request.data.data
                                     if (matches.length != 0) {
@@ -118,9 +118,6 @@
                                                 <div class="tournament-details">
                                                     <h3>${match.attributes.id_tournament.name}</h3>
                                                     <h3>${match.attributes.team1.name} x ${match.attributes.team2.name}</h3>
-                                                </div>
-                                                <div class="tournament-status">
-                                                    <h4>Vitória</h4>
                                                 </div>
                                                 <div class="tournament-date">
                                                     <h4>${match.attributes.time}</h4>

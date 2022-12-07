@@ -100,6 +100,7 @@
         border: 0;
         font-weight: bold;
         width: 120px;
+        color: white;
         font-size: 1.1rem;
 }
 </style>
@@ -140,16 +141,18 @@
                     <div class="match-info-container-left">
                         <div class="match-logo"></div>
                         <div class="match-info">
-                            <h2 id="match-name">Nome do torneio</h2>
-                            <p id="match-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae natus aspernatur optio ipsa quis voluptas omnis ad. Odit modi voluptatibus asperiores debitis laudantium? Facilis laudantium libero, delectus ipsam magnam quos!</p>
+                            <h2 id="match-name"></h2>
+                            <p id="match-description"></p>
                         </div>
                     </div>
                     <div id="match-info-container-right"></div>
                 </div>
                 <div class="match-content">
                     <div class="content-left">
-                        <h2>Equipe 1 vs Equipe 2</h2>
-                        <h1>Resultado: 1x1</h1>
+                    <div>
+                            <h2 id="match-members"></h2>
+                            <h1 id="match-result"></h1>
+                        </div>
                         <div class="tournament-details">
                             <div id="tournament-game-image"></div>
                             <div class="tournament-game-details-right">
@@ -159,11 +162,11 @@
                         </div>
                     </div>
                     <div class="content-right">
-                        <h2>Membros:</h2>
+                        <!-- <h2>Membros:</h2>
                         <div id="table">
                             <div id="team1-members"></div>
                             <div id="team2-members"></div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -177,6 +180,7 @@
             if (user_storage) {
 
                 try {
+                    let matchValue = {}
                     async function exec() {
                         const token = localStorage.getItem("token")
 
@@ -198,7 +202,7 @@
                                 try {
                                     const photo = document.querySelector("#user-photo")
                                     const name = document.querySelector("#user-name")
-                                    const request = await axios.get(`http://localhost/Olympo%20Tournaments/api/user/${user_storage.attributes.username}`, config)
+                                    const request = await axios.get(`${urlApi}/api/user/${user_storage.attributes.username}`, config)
 
                                     const user = request.data.data;
                                     const firstName = user.attributes.name.split(" ")[0];
@@ -248,17 +252,29 @@
                                     
                                     const match = request.data.data
 
-                                    console.log(match)
+                                    matchValue = match
 
-                                    team1Container.innerHTML += `<h2>${match.attributes.team1.name}</h2>`
-                                    team2Container.innerHTML += `<h2>${match.attributes.team2.name}</h2>`
+                                    const name = document.querySelector("#match-name")
+                                    console.log(match)
+                                    const description = document.querySelector("#match-description")
+
+                                    name.innerHTML = match.attributes.id_tournament.name
+                                    description.innerHTML = match.attributes.id_tournament.description
+
+                                    // team1Container.innerHTML += `<h2>${match.attributes.team1.name}</h2>`
+                                    // team2Container.innerHTML += `<h2>${match.attributes.team2.name}</h2>`
 
                                     team_1 = match.attributes.team1
                                     team_2 = match.attributes.team2
 
+                                    const matchResultContainer = document.querySelector("#match-result")
+                                    matchResultContainer.innerHTML = `Resultado: ${match.attributes.result ? match.attributes.result : "Ainda não definido"}`
+
                                     if(userInfo.id == match.attributes.id_tournament.owner) {
-                                        const btnUpdateMatch = document.querySelector("#match-info-container-right")
-                                        btnUpdateMatch.innerHTML = `<button id="btn-update">Atualizar</button>`
+                                        if(match.attributes.result == null) {
+                                            const btnUpdateMatch = document.querySelector("#match-info-container-right")
+                                            btnUpdateMatch.innerHTML = `<button id="btn-update">Atualizar</button>`
+                                        }
                                     }
 
                                     await getSportDetails(match.attributes.id_tournament.sport)
@@ -281,22 +297,27 @@
 
                                     const members = request.data.data
 
-                                    table.innerHTML += `<tbody>`
+                                    console.log(members)
 
-                                    members.map((member)=>{
-                                        console.log(member)
-                                        // console.log(member.attributes.team.id_team, team1)
-                                        if(member.attributes.team.id_team == team_1.id) {
-                                            // console.log(team1Container)
-                                            team1Container.innerHTML += `<h3>${member.attributes.name}</h3>`
-                                            console.log(team1Container)
-                                        } else {
-                                            team2Container.innerHTML += `<h3>${member.attributes.name}</h3>`
-                                        }
+                                    const membersTotalContainer = document.querySelector("#match-members")
+                                    membersTotalContainer.innerHTML = `${members.length} equipes participando`
+
+                                    // table.innerHTML += `<tbody>`
+
+                                    // members.map((member)=>{
+                                    //     console.log(member)
+                                    //     // console.log(member.attributes.team.id_team, team1)
+                                    //     if(member.attributes.team.id_team == team_1.id) {
+                                    //         // console.log(team1Container)
+                                    //         team1Container.innerHTML += `<h3>${member.attributes.name}</h3>`
+                                    //         console.log(team1Container)
+                                    //     } else {
+                                    //         team2Container.innerHTML += `<h3>${member.attributes.name}</h3>`
+                                    //     }
                                         
-                                    })
+                                    // })
 
-                                    table.innerHTML += `</tbody>`
+                                    // table.innerHTML += `</tbody>`
 
 
                                 } catch (error) {
@@ -306,6 +327,36 @@
                             await getUser()
                             await getMatch()
                             await getMatchMembers()
+
+                            const buttonUpdate = document.querySelector("#btn-update")
+                            if(buttonUpdate) {
+                                buttonUpdate.addEventListener("click", updateMatch)
+                            }
+
+                            async function updateMatch(e) {
+                                const urlParams = new URLSearchParams(window.location.search);
+                                const matchId = urlParams.get('q');
+
+                                const team_1 = window.prompt(`Quantos pontos a "${matchValue.attributes.team1.name}" fez?`);
+                                const team_2 = window.prompt(`Quantos pontos a "${matchValue.attributes.team2.name}" fez?`);
+
+                                const body = {
+                                    team_1,
+                                    team_2,
+                                    id_match: matchId
+                                }
+
+                                try {
+                                    const request = await axios.post(`${urlApi}/match/finish`, body, config)
+                                    console.log(request)
+
+                                    await getUser()
+                                    await getMatch()
+                                    await getMatchMembers()
+                                } catch (error) {
+                                    console.log(error)
+                                }
+                            }
                         }
 
                     }

@@ -154,7 +154,7 @@
                                     const name2 = document.querySelector("#profile-name")
                                     const profilePhoto2 = document.querySelector("#profile-photo")
 
-                                    const request = await axios.get(`http://localhost/Olympo%20Tournaments/api/user/${user_storage.attributes.username}`, config)
+                                    const request = await axios.get(`${urlApi}/api/user/${user_storage.attributes.username}`, config)
 
                                     const user = request.data.data;
                                     const firstName = user.attributes.name.split(" ")[0];
@@ -174,7 +174,7 @@
                                 try {
                                     const lastGames = document.querySelector("#last-games")
 
-                                    const request = await axios.get(`http://localhost/Olympo%20Tournaments/user/allMatches`, config)
+                                    const request = await axios.get(`${urlApi}/user/allMatches`, config)
 
                                     const matches = request.data.data
 

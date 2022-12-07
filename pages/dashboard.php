@@ -179,7 +179,7 @@
                                 <h3>Criar um torneio</h2>
                             </div>
                         </a>
-                        <a href="<?php echo INCLUDE_PATH;?>join-tournament">
+                        <a href="<?php echo INCLUDE_PATH;?>tournaments">
                             <div class="buttons-home-single">
                                 <img src="<?php echo INCLUDE_PATH; ?>assets/search.png" alt="Join a Tournament">
                                 <h3>Procurar um torneio</h2>
@@ -234,7 +234,7 @@
                                 try {
                                     const photo = document.querySelector("#user-photo")
                                     const name = document.querySelector("#user-name")
-                                    const request = await axios.get(`http://localhost/Olympo%20Tournaments/api/user/${user_storage.attributes.username}`, config)
+                                    const request = await axios.get(`${urlApi}/api/user/${user_storage.attributes.username}`, config)
 
                                     const user = request.data.data;
                                     const firstName = user.attributes.name.split(" ")[0];
@@ -251,7 +251,7 @@
                             async function getCategory() {
 
                                 try {
-                                    const request = await axios.get(`http://localhost/Olympo%20Tournaments/tournament/categories`, config)
+                                    const request = await axios.get(`${urlApi}/tournament/categories`, config)
 
                                     const receiveCategories = document.querySelector("#receive-categories")
                                     const categories = request.data.data
@@ -268,7 +268,8 @@
                             async function getUserMatches() {
                                 const nextMatchesContainer = document.querySelector("#next-tournament-container")
                                 try {
-                                    const request = await axios.get(`http://localhost/Olympo%20Tournaments/user/matches`, config)
+                                    const request = await axios.get(`${urlApi}/user/matches`, config)
+                                    console.log(request)
                                     const matches = request.data.data
                                     if (matches.length != 0) {
                                         matches.slice(0, 6).map((match) => {

@@ -234,7 +234,7 @@
                                 try {
                                     const photo = document.querySelector("#user-photo")
                                     const name = document.querySelector("#user-name")
-                                    const request = await axios.get(`http://localhost/Olympo%20Tournaments/api/user/${user_storage.attributes.username}`, config)
+                                    const request = await axios.get(`${urlApi}/api/user/${user_storage.attributes.username}`, config)
 
                                     const user = request.data.data;
                                     const firstName = user.attributes.name.split(" ")[0];
@@ -269,6 +269,30 @@
                                     console.log(error)
                                 }
                             }
+                            async function verifyUserPartipatesTournament(tournamentId) {
+                                const containerRight = document.querySelector("#tournament-info-container-right")
+                                try {
+                                    console.log(tournamentId)
+                                    const request = await axios.get(`${urlApi}/tournament/verify/${tournamentId}`, config)
+
+                                    const team = request.data.data;
+
+                                    if(team) {
+                                        alert("Ja faz parte")
+                                    }
+
+                                    // image.style.backgroundImage = `url('${sport.attributes.image}')`
+
+                                    // name.innerHTML = sport.attributes.name
+                                    // players.innerHTML = `Até ${sport.attributes.sport_members} jogadores`
+
+                                } catch (error) {
+                                    console.log(error)
+                                    if(error.response.data.errors[0].title == "ERR_TEAM_NOT_FOUND") {
+                                        containerRight.innerHTML += `<button class="btn-container-top" onclick="window.location.href= 'team-tournament?q=${tournamentId}'">Entrar no torneio</button>`
+                                    }
+                                }
+                            }
                             async function getTournamentMatches(tournamentId) {
                                 const nextMatches = document.querySelector("#next-matches");
                                 try {
@@ -291,7 +315,7 @@
                                                             <h3>${match.attributes.team1.name} x ${match.attributes.team2.name}</h3>
                                                         </div>
                                                         <div class="tournament-status">
-                                                            <h4>${match.attributes.result}</h4>
+                                                            <h4>${match.attributes.result ? match.attributes.result : ""}</h4>
                                                         </div>
                                                         <div class="tournament-date">
                                                             <h4>${match.attributes.time}</h4>
@@ -341,12 +365,15 @@
                                     }
 
                                     const containerRight = document.querySelector("#tournament-info-container-right")
-                                    if(tournament.attributes.owner == userData.id) {
-                                        containerRight.innerHTML += `<button onclick="alert('proximas funcionalidades')">Editar torneio</button>`
-                                    }
+                                    // if(tournament.attributes.owner == userData.id) {
+                                    //     containerRight.innerHTML += `<button onclick="alert('proximas funcionalidades')" class="btn-container-top">Editar torneio</button>`
+                                    // }
+
+                                    containerRight.innerHTML += `<button class="btn-container-top" onclick="window.location.href= 'team-tournament?q=${tournamentId}'">Ver participantes</button>`
 
                                     await getSportDetails(tournament.attributes.sport)
                                     await getTournamentMatches(tournamentId)
+                                    // await verifyUserPartipatesTournament(tournament.id)
                                 } catch (error) {
                                     console.log(error)
                                     if (error.response.data.errors[0].title == "ERR_TOURNAMENT_NOT_FOUND") {

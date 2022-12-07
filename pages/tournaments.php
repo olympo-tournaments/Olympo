@@ -116,7 +116,7 @@
             <div class="container">
                 <div class="buttons">
                     <button onclick="window.location.href='create-tournament'">Criar um campeonato</button>
-                    <button>Procurar um campeonato</button>
+                    <button onclick="alert('modal de entrar em campeonato')">Procurar um campeonato</button>
                 </div>
                 <div id="tournament-content">
                     
@@ -147,7 +147,7 @@
                                 try {
                                     const photo = document.querySelector("#user-photo")
                                     const name = document.querySelector("#user-name")
-                                    const request = await axios.get(`http://localhost/Olympo%20Tournaments/api/user/${user_storage.attributes.username}`, config)
+                                    const request = await axios.get(`${urlApi}/api/user/${user_storage.attributes.username}`, config)
 
                                     const user = request.data.data;
                                     const firstName = user.attributes.name.split(" ")[0];
@@ -181,7 +181,6 @@
                                                         <p class="tournament-description">${tournament.attributes.description}</p>
                                                     </div>
                                                 </div>
-                                                <h2 class="tournament-game">${tournament.attributes.sport}</h2>
                                                 </a>
                                             </div>
                                         `

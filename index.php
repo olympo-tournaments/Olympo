@@ -20,8 +20,11 @@
     <link rel="shortcut icon" href="<?php echo INCLUDE_PATH;?>assets/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="<?php echo INCLUDE_PATH;?>css/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="shortcut icon" href="<?php echo INCLUDE_PATH;?>assets/favicon.ico" type="image/x-icon">
 
     <script>
+        const urlApi = "http://localhost/Olympo%20Tournaments"
+
     async function refreshToken(error) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -38,7 +41,7 @@
                 const body = {
                     refresh_token,
                 };
-                const res = await axios.post(`http://localhost/Olympo%20Tournaments/api/refresh`,body,parameters)
+                const res = await axios.post(`${urlApi}/api/refresh`,body,parameters)
                 if(!res) {
                     console.log("erro")
                     return reject(res)
@@ -75,10 +78,7 @@
                 }
 
             return Promise.reject(error);
-        });
-
-        const urlApi = "http://localhost/Olympo%20Tournaments"
-        
+        });        
 
 
     </script>
